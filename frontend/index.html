@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temp Mail - البريد الإلكتروني المؤقت</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-envelope"></i>
+                <h1>Temp Mail</h1>
+            </div>
+            <p class="subtitle">البريد الإلكتروني المؤقت المحلي</p>
+        </header>
+
+        <!-- Email Generator Section -->
+        <section class="email-generator">
+            <div class="card">
+                <h2><i class="fas fa-plus-circle"></i> إنشاء بريد إلكتروني مؤقت</h2>
+                
+                <div class="generator-options">
+                    <div class="option-group">
+                        <label for="generation-method">طريقة التوليد:</label>
+                        <select id="generation-method">
+                            <option value="random">عشوائي</option>
+                            <option value="word_based">مبني على كلمات</option>
+                            <option value="timestamped">يحتوي على الوقت</option>
+                            <option value="custom">مخصص</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group" id="custom-prefix-group" style="display: none;">
+                        <label for="custom-prefix">البادئة المخصصة:</label>
+                        <input type="text" id="custom-prefix" placeholder="اكتب البادئة المطلوبة">
+                    </div>
+                </div>
+                
+                <button id="generate-btn" class="btn btn-primary">
+                    <i class="fas fa-magic"></i> إنشاء بريد إلكتروني جديد
+                </button>
+            </div>
+        </section>
+
+        <!-- Current Email Display -->
+        <section class="current-email" id="current-email-section" style="display: none;">
+            <div class="card">
+                <h2><i class="fas fa-inbox"></i> بريدك الإلكتروني الحالي</h2>
+                <div class="email-display">
+                    <div class="email-address">
+                        <span id="current-email-address"></span>
+                        <button id="copy-email-btn" class="btn btn-small">
+                            <i class="fas fa-copy"></i> نسخ
+                        </button>
+                    </div>
+                    <div class="email-info">
+                        <p><i class="fas fa-clock"></i> تم الإنشاء: <span id="created-at"></span></p>
+                        <p><i class="fas fa-hourglass-end"></i> ينتهي في: <span id="expires-at"></span></p>
+                    </div>
+                </div>
+                
+                <div class="email-actions">
+                    <button id="refresh-emails-btn" class="btn btn-secondary">
+                        <i class="fas fa-sync-alt"></i> تحديث الرسائل
+                    </button>
+                    <button id="new-email-btn" class="btn btn-outline">
+                        <i class="fas fa-plus"></i> بريد جديد
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Email List -->
+        <section class="email-list" id="email-list-section" style="display: none;">
+            <div class="card">
+                <h2><i class="fas fa-list"></i> الرسائل الواردة</h2>
+                <div class="emails-container" id="emails-container">
+                    <div class="no-emails">
+                        <i class="fas fa-inbox"></i>
+                        <p>لا توجد رسائل بعد</p>
+                        <small>سيتم عرض الرسائل الجديدة هنا تلقائياً</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Email Viewer Modal -->
+        <div class="modal" id="email-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="email-subject"></h3>
+                    <button class="close-btn" id="close-modal-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="email-meta">
+                        <p><strong>من:</strong> <span id="email-sender"></span></p>
+                        <p><strong>إلى:</strong> <span id="email-recipient"></span></p>
+                        <p><strong>التاريخ:</strong> <span id="email-date"></span></p>
+                    </div>
+                    <div class="email-content">
+                        <div id="email-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Send Email Section -->
+        <section class="send-email">
+            <div class="card">
+                <h2><i class="fas fa-paper-plane"></i> إرسال رسالة</h2>
+                <form id="send-email-form">
+                    <div class="form-group">
+                        <label for="sender-email">من:</label>
+                        <input type="email" id="sender-email" required placeholder="البريد الإلكتروني للمرسل">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipient-email">إلى:</label>
+                        <input type="email" id="recipient-email" required placeholder="البريد الإلكتروني للمستلم">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email-subject-input">الموضوع:</label>
+                        <input type="text" id="email-subject-input" required placeholder="موضوع الرسالة">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email-body-input">محتوى الرسالة:</label>
+                        <textarea id="email-body-input" required placeholder="اكتب رسالتك هنا..." rows="5"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> إرسال الرسالة
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Loading Spinner -->
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>جاري المعالجة...</p>
+        </div>
+
+        <!-- Notification -->
+        <div class="notification" id="notification"></div>
+    </div>
+
+    <script src="static/script.js"></script>
+</body>
+</html>
